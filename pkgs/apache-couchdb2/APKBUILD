@@ -1,0 +1,38 @@
+# Contributor: didlich <didlich@t-online.de>
+# Maintainer:
+pkgname=apache-couchdb
+pkgver=2.0.0
+pkgrel=0
+pkgdesc="Apache CouchDB Database"
+url="http://couchdb.apache.org/"
+arch="all"
+license="GPL"
+depends="libmozjs"
+depends_dev="erlang-diameter erlang-megaco erlang-coseventdomain erlang-eldap erlang-kernel erlang-edoc erlang-observer erlang-gs erlang-syntax-tools erlang-public-key erlang-costr
+ansaction erlang-erts erlang-os-mon erlang-compiler erlang-cosevent erlang-mnesia erlang-ssl erlang-common-test erlang-crypto erlang-reltool erlang-otp-mibs erlang-odbc erlang-cos
+notification erlang-hipe erlang-erl-interface erlang-asn1 erlang-typer erlang-jinterface erlang-debugger erlang-dev erlang-ic erlang-et erlang-snmp erlang-tools erlang-cosfiletran
+sfer erlang-orber erlang-inets erlang erlang-eunit erlang-erl-docgen erlang-ssh erlang-runtime-tools erlang-stdlib erlang-sasl erlang-percept erlang-costime erlang-parsetools erla
+ng-cosproperty erlang-dialyzer erlang-xmerl gcc g++ libressl-dev icu-libs icu-dev"
+makedepends="$depends_dev"
+install="$pkgname.pre-install $pkgname.post-install"
+subpackages="$pkgname-dev"
+source="http://apache.mirror.digionline.de/couchdb/source/2.0.0/apache-couchdb-2.0.0.tar.gz"
+builddir="$srcdir/"
+
+build() {
+	cd "${srcdir}/${_pkgname}-${_pkgver}"
+	./configure --disable-docs || return 1
+	make release || return 1
+}
+
+package() {
+	# see: apache-couchdb.pre-install
+	# adduser -S -h /home/couchdb -s /bin/sh -g "CouchDB Administrator" couchdb
+	
+	cd "${srcdir}/${_pkgname}-${_pkgver}"
+	install -d -o couchdb "${pkgdir}"/home/couchdb
+	
+	# Copy the built couchdb release to the new user’s home directory:
+	cp -R rel/couchdb "${pkgdir}"/home/couchdb/
+}
+

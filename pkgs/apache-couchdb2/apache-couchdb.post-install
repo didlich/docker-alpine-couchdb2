@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Change the ownership of the CouchDB directories by running:
+chown -R couchdb:nogroup /home/couchdb/couchdb  
+                                                                            
+# Change the permission of the CouchDB directories by running:
+find /home/couchdb/couchdb -type d -exec chmod 0770 {} \;
+                                                                            
+# Update the permissions for your ini files:
+chmod 0644 /home/couchdb/couchdb/etc/*
+
+exit 0

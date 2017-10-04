@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# see: https://github.com/andyshinn/alpine-pkg-nginx-extra
+adduser -S -h /home/couchdb -s /bin/sh -g "CouchDB Administrator" couchdb 2>/dev/null
+
+exit 0
