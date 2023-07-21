@@ -11,7 +11,7 @@ RUN apk add --no-cache --virtual .mozjs-build-deps \
   && cd /opt \
   && wget http://ftp.mozilla.org/pub/mozilla.org/js/js185-1.0.0.tar.gz \
   && tar -zxvf js185-1.0.0.tar.gz \
-  # patch 
+  # patch
   # https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-lang/spidermonkey/files/spidermonkey-1.8.5-gcc6.patch?id=436f1eed9e302d8b5e0711803f980bc72c81e0d5
   && wget -O spidermonkey-1.8.5-gcc6.patch https://gitweb.gentoo.org/repo/gentoo.git/plain/dev-lang/spidermonkey/files/spidermonkey-1.8.5-gcc6.patch?id=436f1eed9e302d8b5e0711803f980bc72c81e0d5 \
   && cd js-1.8.5 \
@@ -48,19 +48,19 @@ RUN apk add --no-cache --virtual .build-deps \
         erlang-public-key \
         erlang-runtime-tools \
         erlang-sasl \
-        erlang-xmerl \
-    && cd /opt \
-    && wget http://www-eu.apache.org/dist/couchdb/source/2.1.0/apache-couchdb-2.1.0.tar.gz \
-    && tar -zxvf apache-couchdb-2.1.0.tar.gz \
-    && cd apache-couchdb-2.1.0 \
-    && ./configure --disable-docs \
+        erlang-xmerl
+RUN cd /opt \
+    && wget https://downloads.apache.org/couchdb/source/2.3.1/apache-couchdb-2.3.1.tar.gz \
+    && tar -zxvf apache-couchdb-2.3.1.tar.gz \
+    && cd apache-couchdb-2.3.1 \
+    &&./configure --disable-docs \
     && make release \
     && mv rel/couchdb /opt/ \
-    && rm -rf /opt/apache-couchdb-2.1.0.tar.gz \
-    && rm -rf /opt/apache-couchdb-2.1.0 \
+    && rm -rf /opt/apache-couchdb-2.3.1.tar.gz \
+    && rm -rf /opt/apache-couchdb-2.3.1 \
     && apk del .build-deps \
     && rm -rf /usr/lib/node_modules /usr/src/* /var/cache/apk/*
-    
+
 RUN apk add --no-cache ncurses icu su-exec \
     && mkdir -p /opt/couchdb/data /opt/couchdb/etc/local.d /opt/couchdb/etc/default.d
 
@@ -76,4 +76,3 @@ EXPOSE 5984 4369 9100
 VOLUME ["/opt/couchdb/data"]
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-
